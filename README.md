@@ -1,49 +1,35 @@
 📖 Agenda de Contatos em PHP (CRUD Completo)
-Este é um projeto simples de uma agenda de contatos desenvolvida em PHP "puro" (vanilla), demonstrando as quatro operações fundamentais de um sistema: Create, Read, Update e Delete (CRUD).
+Este é um projeto simples de uma agenda de contatos desenvolvida em PHP, demonstrando as quatro operações de um sistema: Create, Read, Update e Delete (CRUD).
 
-O projeto conecta-se a um banco de dados MySQL (via WAMP/phpMyAdmin) utilizando a extensão PDO (PHP Data Objects), com foco em segurança e boas práticas, como a prevenção de ataques de SQL Injection e XSS.
+O projeto conecta-se a um banco de dados MySQL (via WAMP/phpMyAdmin) utilizando a extensão PDO (PHP Data Objects), com foco em segurança e boas práticas.
 
 ✨ Funcionalidades
 Create (Criar): Adicionar novos contatos (Nome, Endereço, Telefone, E-mail) através de um formulário.
-
 Read (Ler): Listar todos os contatos cadastrados em uma tabela organizada.
-
 Update (Atualizar): Editar as informações de um contato existente.
-
 Delete (Excluir): Remover um contato do banco de dados, com uma etapa de confirmação em JavaScript.
 
 🚀 Tecnologias Utilizadas
 Back-end:
-
 PHP 8+ (Linguagem de script do lado do servidor)
-
 MySQL (Banco de dados relacional)
-
 PDO (PHP Data Objects): Extensão para conexão segura com o banco.
 
 Front-end:
-
 HTML5 (Estrutura da página)
-
 CSS3 (Estilização básica)
-
 JavaScript (Vanilla): Para a funcionalidade de confirmação de exclusão.
 
 Ambiente:
-
 WAMP (Servidor local: Windows, Apache, MySQL, PHP)
-
 phpMyAdmin (Interface de gerenciamento do banco de dados)
 
 Versionamento:
-
 Git
 
 🔧 Pré-requisitos
 Antes de começar, você precisará ter o seguinte software instalado em sua máquina:
-
 Um ambiente de servidor local, como WAMP (para Windows), XAMPP (Windows/Linux/Mac) ou MAMP (Mac).
-
 Um gerenciador de versão Git (opcional, se for clonar).
 
 ⚙️ Passo a Passo: Instalação e Execução
@@ -111,20 +97,3 @@ style.css: Folha de estilos para dar uma aparência básica e limpa ao projeto.
 script.js: Código JavaScript que adiciona a caixa de diálogo "Tem certeza?" antes de excluir um contato.
 
 .gitignore: Arquivo que diz ao Git quais arquivos e pastas ignorar (como arquivos de configuração de IDEs ou senhas).
-
-README.md: Este arquivo.
-
-🔒 Foco em Segurança
-Este projeto foi escrito com duas grandes preocupações de segurança em mente:
-
-Prevenção de SQL Injection (Injeção de SQL):
-
-O que é? Um ataque onde um usuário mal-intencionado insere código SQL em um campo de formulário para tentar roubar ou apagar dados.
-
-Como foi evitado? Usando Prepared Statements do PDO. Todos os dados enviados pelo usuário são tratados como dados, e não como código executável. Note o uso de ? nos comandos SQL e a passagem de dados através do método $stmt->execute([...]).
-
-Prevenção de XSS (Cross-Site Scripting):
-
-O que é? Um ataque onde um usuário cadastra um código JavaScript malicioso (ex: <script>...) no lugar de um nome.
-
-Como foi evitado? Usando a função htmlspecialchars() do PHP sempre antes de exibir no HTML qualquer dado vindo do banco. Isso converte caracteres especiais (como < e >) em suas entidades HTML (&lt; e &gt;), tornando o script inofensivo.
