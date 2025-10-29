@@ -1,7 +1,9 @@
 <?php
-require_once 'conexao.php'; // Inclui a conexão
+require_once 'database.php'; // Inclui novaa conexão
 
 try {
+    //linha adicionada
+    $pdo = Database::getInstance()->getConnection();
     // Busca todos os contatos ordenados pelo nome
     $stmt = $pdo->query("SELECT * FROM contatos ORDER BY nome");
     $contatos = $stmt->fetchAll();
