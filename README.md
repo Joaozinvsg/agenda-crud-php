@@ -78,22 +78,24 @@ Para ver a lista de contatos: http://localhost/agenda/listar.php
 🗂️ Estrutura dos Arquivos
 Uma breve explicação sobre o que cada arquivo faz:
 
-instalar.php: (Executar 1ª vez) Script que cria o banco de dados agenda e a tabela contatos.
+* `instalar.php`: **(Executar 1ª vez)** Script que cria o banco de dados `agenda` e a tabela `contatos`.
 
-conexao.php: (Obrigatório) Arquivo central que estabelece a conexão segura com o banco via PDO. É incluído por todos os outros arquivos PHP.
+* `database.php`: **(Obrigatório)** Classe de conexão com o banco (Padrão Singleton). É usada por todos os arquivos que precisam acessar o MySQL.
 
-index.html: (Página Inicial) Formulário HTML para cadastrar (Create) novos contatos.
+* `index.html`: **(Página Inicial)** Formulário HTML para cadastrar (Create) novos contatos.
 
-salvar.php: (Lógica de Back-end) Recebe os dados do index.html (para criar) ou editar.php (para atualizar). Decide se deve executar INSERT ou UPDATE no banco.
+* `salvar.php`: **(Lógica de Back-end)** Recebe os dados do `index.html` (para criar) ou `editar.php` (para atualizar). Decide se deve executar `INSERT` ou `UPDATE` no banco.
 
-listar.php: (Página de Listagem) Tela que busca (Read) todos os contatos do banco e os exibe em uma tabela.
+* `listar.php`: **(Página de Listagem)** Tela que busca (Read) todos os contatos do banco e os exibe em uma tabela.
 
-editar.php: (Página de Edição) Formulário pré-preenchido com os dados de um contato específico, permitindo a edição (Update).
+* `editar.php`: **(Página de Edição)** Formulário pré-preenchido com os dados de um contato específico, permitindo a edição (Update).
 
-excluir.php: (Lógica de Back-end) Recebe o ID de um contato e executa o comando DELETE para removê-lo.
+* `excluir.php`: **(Lógica de Back-end)** Recebe o ID de um contato e executa o comando `DELETE` para removê-lo.
 
-style.css: Folha de estilos para dar uma aparência básica e limpa ao projeto.
+* `style.css`: Folha de estilos para dar uma aparência básica e limpa ao projeto.
 
-script.js: Código JavaScript que adiciona a caixa de diálogo "Tem certeza?" antes de excluir um contato.
+* `script.js`: Código JavaScript que adiciona a caixa de diálogo "Tem certeza?" antes de excluir um contato.
 
-.gitignore: Arquivo que diz ao Git quais arquivos e pastas ignorar (como arquivos de configuração de IDEs ou senhas).
+* `.gitignore`: Arquivo que diz ao Git quais arquivos e pastas ignorar.
+
+* `README.md`: Este arquivo.
