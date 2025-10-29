@@ -1,5 +1,6 @@
 <?php
-require_once 'conexao.php';
+require_once 'database.php';
+$pdo = Database::getInstance()->getConnection();
 
 // 1. Verifica se recebeu um ID válido
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
