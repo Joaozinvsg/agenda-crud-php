@@ -1,5 +1,6 @@
 <?php
-require_once 'conexao.php';
+require_once 'database.php';
+ $pdo = Database::getInstance()->getConnection();
 
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
