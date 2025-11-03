@@ -43,7 +43,7 @@ Abra seu terminal e navegue até o diretório www do seu WAMP (geralmente C:\wam
 Bash
 
 cd C:\wamp64\www
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git agenda
+git clone https://github.com/Joaozinvsg/agenda-crud-php.git agenda
 (Substitua pela URL do seu repositório no GitHub. agenda é o nome da pasta que será criada)
 
 Opção B: Baixar Manualmente
