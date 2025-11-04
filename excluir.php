@@ -1,8 +1,18 @@
 <?php
-require_once 'database.php';
+require_once __DIR__ . '/../Core/Session.php';
+Session::init();
+
+$user_id = Session::get('user_id');
+
+if (!$user_id) {
+    Session::set('error_message', 'Você precisa estar logado para ver esta página.');
+    header('Location: View/login.php'); // Redireciona para o login
+    exit;
+}
+
+require_once '/Core/Database.php';
 $pdo = Database::getInstance()->getConnection();
 
-// 1. Verifica se recebeu um ID válido
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: listar.php');
     exit;
@@ -11,11 +21,9 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $id = (int)$_GET['id'];
 
 try {
-    // 2. Prepara e executa o DELETE
     $stmt = $pdo->prepare('DELETE FROM contatos WHERE id = ?');
     $stmt->execute([$id]);
 
-    // 3. Redireciona de volta para a lista
     header('Location: listar.php');
     exit;
 
