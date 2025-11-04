@@ -1,22 +1,35 @@
 <?php
-require_once 'database.php';
+require_once __DIR__ . '/Core/Session.php';
+Session::init();
+
+$user_id = Session::get('user_id');
+
+
+if (!$user_id) {
+    Session::set('error_message', 'Você precisa estar logado para ver esta página.');
+    header('Location: View/login.php');
+    exit;
+}
+
+
+require_once __DIR__ . '/Core/Database.php';
 $pdo = Database::getInstance()->getConnection();
 
-// 1. Verifica se recebeu um ID válido
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: listar.php'); // Redireciona se o ID for inválido
+    header('Location: listar.php');
     exit;
 }
 
 $id = (int)$_GET['id'];
 
 try {
-    // 2. Busca o contato no banco de dados
+    
     $stmt = $pdo->prepare('SELECT * FROM contatos WHERE id = ?');
     $stmt->execute([$id]);
     $contato = $stmt->fetch();
 
-    // 3. Se não encontrar o contato, volta para a lista
+    
     if (!$contato) {
         header('Location: listar.php');
         exit;
