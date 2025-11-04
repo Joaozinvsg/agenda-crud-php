@@ -1,35 +1,43 @@
 <?php
-require_once 'database.php';
+require_once __DIR__ . '/Core/Session.php';
+Session::init();
+
+$user_id = Session::get('user_id');
+
+if (!$user_id) {
+    Session::set('error_message', 'Você precisa estar logado para ver esta página.');
+    header('Location: View/login.php'); // Redireciona para o login
+    exit;
+}
+
+require_once __DIR__ . '/Core/Database.php';
  $pdo = Database::getInstance()->getConnection();
 
-// Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // 1. Pega os dados do formulário
+ 
     $nome = trim($_POST['nome']);
     $endereco = trim($_POST['endereco']);
     $telefone = trim($_POST['telefone']);
     $email = trim($_POST['email']);
-    
-    // Pega o ID (se existir, é uma atualização)
+   
     $id = isset($_POST['id']) ? (int)$_POST['id'] : null;
 
     try {
         if ($id) {
-            // 2. Lógica de ATUALIZAR (UPDATE)
+            
             $sql = "UPDATE contatos SET nome = ?, endereco = ?, telefone = ?, email = ? WHERE id = ?";
             $params = [$nome, $endereco, $telefone, $email, $id];
         } else {
-            // 3. Lógica de CRIAR (INSERT)
+            
             $sql = "INSERT INTO contatos (nome, endereco, telefone, email) VALUES (?, ?, ?, ?)";
             $params = [$nome, $endereco, $telefone, $email];
         }
         
-        // 4. Executa a query
+       
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
 
-        // 5. Redireciona para a lista
+    
         header('Location: listar.php');
         exit;
 
@@ -38,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 } else {
-    // Se não for POST, redireciona
-    header('Location: index.html');
+    
+    header('Location: index.php');
     exit;
 }
 ?>
