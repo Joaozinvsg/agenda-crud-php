@@ -1,19 +1,27 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Seleciona todos os botões/links com a classe 'btn-excluir'
-    const botoesExcluir = document.querySelectorAll('.btn-excluir');
+(() => {
+    'use strict';
 
-    botoesExcluir.forEach(botao => {
-        botao.addEventListener('click', function(event) {
-            
-            // Exibe a caixa de diálogo de confirmação
-            const confirmou = confirm('Tem certeza que deseja excluir este contato?');
+    function handleConfirmDelete(event) {
+        const deleteLink = event.target.closest('[data-action="confirm-delete"]');
+        if (!deleteLink) {
+            return;
+        }
+        event.preventDefault();
+        const row = deleteLink.closest('tr');
+        const contactName = row?.cells[0]?.textContent?.trim() || 'este contato';
+        const message = `Tem certeza que deseja excluir "${contactName}"?`;
+        if (confirm(message)) {
+            window.location.href = deleteLink.href;
+        }
+    }
 
-            // Se o usuário clicar em "Cancelar", previne a ação padrão (seguir o link)
-            if (!confirmou) {
-                event.preventDefault();
-            }
-        });
-    });
+    function initialize() {
+        document.body.addEventListener('click', handleConfirmDelete);
+    }
 
-});
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initialize);
+    } else {
+        initialize();
+    }
+})();
