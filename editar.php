@@ -1,35 +1,38 @@
 <?php
+// INÍCIO DO "GATEKEEPER" (Porteiro)
 require_once __DIR__ . '/Core/Session.php';
 Session::init();
 
 $user_id = Session::get('user_id');
 
-
+// Se não há um 'user_id' na sessão, chuta o usuário para a página de login
 if (!$user_id) {
     Session::set('error_message', 'Você precisa estar logado para ver esta página.');
-    header('Location: View/login.php');
+    header('Location: View/login.php'); // Redireciona para o login
     exit;
 }
+// FIM DO "GATEKEEPER"
+?>
 
-
+<?php
 require_once __DIR__ . '/Core/Database.php';
 $pdo = Database::getInstance()->getConnection();
 
-
+// 1. Verifica se recebeu um ID válido
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: listar.php');
+    header('Location: listar.php'); // Redireciona se o ID for inválido
     exit;
 }
 
 $id = (int)$_GET['id'];
 
 try {
-    
-    $stmt = $pdo->prepare('SELECT * FROM contatos WHERE id = ?');
-    $stmt->execute([$id]);
+    // 2. Busca o contato no banco de dados (E verifica se pertence ao usuário)
+    $stmt = $pdo->prepare('SELECT * FROM contatos WHERE id = ? AND user_id = ?');
+    $stmt->execute([$id, $user_id]);
     $contato = $stmt->fetch();
 
-    
+    // 3. Se não encontrar o contato (ou não for do usuário), volta para a lista
     if (!$contato) {
         header('Location: listar.php');
         exit;
@@ -64,11 +67,43 @@ try {
                 </div>
                 
                 <div class="form-group">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" id="endereco" name="endereco"
-                           value="<?php echo htmlspecialchars($contato['endereco']); ?>">
+    
+                <label for="cep">CEP:</label>
+                <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+               onblur="pesquisacep(this.value);" /></label><br />
+                <small id="cep-error" style="color: red; display: none;">CEP não encontrado.</small>
+              </div>
+
+              <div class="form-group">
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Será preenchido automaticamente">
+              </div>
+
+                <div class ="form-group">
+              <label for="numero">Número:</label>
+              <input type="text" id="numero" name="numero">
+              </div>
+              
+              <div class="form-group">
+                    <label for="complemento">Complemento:</label>
+                    <input type="text" id="complemento" name="complemento">
+                </div>
+
+              <div class="form-group">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade" placeholder="Será preenchido automaticamente">
                 </div>
                 
+                <div class="form-group">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" id="bairro" name="bairro" placeholder="Será preenchido automaticamente">
+                </div>
+
+                    <div class="form-group">
+                    <label for="uf">Estado (UF):</label>
+                    <input type="text" id="uf" name="uf" placeholder="Será preenchido automaticamente">
+                </div>
+              
                 <div class="form-group">
                     <label for="telefone">Telefone:</label>
                     <input type="tel" id="telefone" name="telefone"
@@ -85,5 +120,5 @@ try {
             </form>
         </main>
     </div>
-</body>
+<script src="script.js"></script></body>
 </html>
